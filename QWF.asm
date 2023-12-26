@@ -2,7 +2,7 @@
 .data
     welcome DB 'Welcome, please enter binary number max(10 digits)',0Ah,0Dh,'$'
     error DB ' Not an obtion, sorry. Enter again: ',0Ah,0Dh,'$'
-    obtions DB 'convert it to ',0Ah,0Dh,'1-decimal',0Ah,0Dh,'2-octal',0Ah,0Dh,'3-hexa',0Ah,0Dh,'$'
+    obtions DB 'convert it to ',0Ah,0Dh,'1-decimal',0Ah,0Dh,'2-octal',0Ah,0Dh,'3-hexa',0Ah,0Dh, '9-End',0Ah,0Dh,'$'
     bnum DB 11 DUP('$')
     endl Db 0Ah,0Dh
     
@@ -40,6 +40,8 @@ obtion:
     je octal
     cmp al,'3'
     je hexadecimal
+    cmp al,'9'
+    je endd
     
     ; print error if not 1 or 2 or 3, and jump to obtion
     mov ah ,09h 
