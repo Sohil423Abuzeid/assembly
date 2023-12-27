@@ -1,12 +1,16 @@
 .model small
+.STACK 300h
 .data
     welcome DB 'Welcome, please enter binary number max(10 digits)',0Ah,0Dh,'Press e to end',0Ah,0Dh,'$'
     msg1 DB 0Ah,0Dh,'You entered: ',0Ah,0Dh,'$'
     error DB ' Not an option, sorry. Enter again: ',0Ah,0Dh,'$'
     obtions DB 0Ah,0Dh,0Ah,0Dh,'convert it to ',0Ah,0Dh,'1-decimal',0Ah,0Dh,'2-octal',0Ah,0Dh,'3-hexa',0Ah,0Dh, '9-End',0Ah,0Dh,'$'
     bnum DB 11 DUP(?) ; buffer to store the binary number
+    rbnum DB 11 DUP(?) ; buffer to store the reversed binary number
+    fdnum DB 11 DUP(?) ; buffer to store the final decimal answer number
     length_msg db 0Ah,0Dh,'Length is: ','$'
     lenght_bnum db 0 ; lenght of the binary number
+    fans db 0 ; final answer
     hex_num db 5 DUP ('$') ; buffer to store the hexadecimal number
     endl DB 0Ah,0Dh
     
@@ -40,6 +44,21 @@ READ:
     LOOP READ ; repeat until CX = 0
 string_end:
     MOV BYTE PTR [SI], '$' ; add the string terminator
+    ;;;reverse bnum
+    dec si
+    LEA di, rbnum ; load the address of the buffer into SI
+    MOV CX, bx ; set the counter to 10
+reverse:
+    mov al ,[si] 
+    mov [di] ,al
+    inc di
+    dec si
+    loop reverse
+    
+    ; add the string terminator
+    inc di
+    MOV BYTE PTR [SI], '$' ;
+    ;;;
     LEA DX, msg1 
     MOV AH, 09h 
     INT 21h ; print msg1 "You entered:"
@@ -88,8 +107,51 @@ obtion:
     jmp obtion
     
 decimal:
-
+    mov cx ,bx 
+    xor bx ,bx ;reset to zero to store answer
+    mov dx ,1  ;
+    LEA di, rbnum
+cbd: ; covert binary to decimal loop
+    cmp [di],'0'
+    je novalue ;if current digit equal 0 skip
+    add bx ,dx
+novalue:
+    inc di
+    shl dx, 1 ;multi dx by 2 
+    loop cbd
+    
+    ;;;;;;;;;;;;;;;;strore decimal in string 
+    LEA di, fdnum 
+    mov cx,0ah
+    xor ax,ax 
+    mov ax,bx 
+    ST : ; bx still bigger than 0  
+    xor dx,dx 
+    div cx
+    mov bx ,ax
+    add dl ,30h
+    mov [di],dl
+    inc di
+    mov ax,bx 
+    
+    test ax, ax    ; Check if quotient is zero
+    jnz ST ; If not, continue the loop
+     dec di
+     ;;;;;;;;;;;;;;;;;;;;
+         mov ah ,02h
+         LEA si, fdnum
+ printt :
+     mov ah ,02h
+     mov dl , [di]
+     int 21h
+     dec di
+     cmp di,si
+     jne printt
+     mov dl , [di]
+     int 21
     jmp endd
+    
+   
     
 octal:
     jmp endd
