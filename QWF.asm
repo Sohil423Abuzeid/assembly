@@ -98,10 +98,10 @@ obtion:
     cmp al,'2' ; octal obtion
     je octal
     
-    cmp al,'3'
+    cmp al,'3' ; hex obtion
     je hex
 
-    cmp al,'9'
+    cmp al,'9' ; end obtion
     je endd
     
     ; print error if not 1 or 2 or 3 or 9, and jump to obtion
@@ -134,6 +134,19 @@ endd:
 MAIN ENDP
 
 convert PROC NEAR
+;-----------------------------------------------------------------------
+; Procedure: convert
+; Description: This procedure converts a binary number to a hexadecimal number.
+; Input:
+;   - rbnum: The reversed-binary number to be converted
+; Output:
+;   - bx: The hexadecimal representation of the binary number
+; Registers modified:
+;   - cx: Used as a loop counter
+;   - bx: Stores the hexadecimal answer
+;   - dx: Used for multiplication by 2
+;   - di: Points to the current digit of the binary number
+;-----------------------------------------------------------------------
     mov cx ,bx 
     xor bx ,bx ;reset to zero to store answer
     mov dx ,1  ;
@@ -150,33 +163,50 @@ no_value:
 convert ENDP
 
 print_dec PROC NEAR
-    mov ax, bx
-    mov cx, 10
-    mov bx, 0
-    mov dx, 0
-    L1:
-        div cx
-        push dx
-        xor dx, dx
-        inc bx
-        cmp ax, 0
-        jne L1
+;--------------------------------------------------------------
+; Procedure: print_dec
+; Description: This procedure prints the decimal value stored in the BX register.
+; Input: None
+; Output: None
+; Registers Modified: AX, BX, CX, DX
+;--------------------------------------------------------------
+    mov ax, bx        ; Move the value in BX to AX
+    mov cx, 10        ; Set CX to 10 for division
+    mov bx, 0         ; Clear BX to use it as a counter
+    mov dx, 0         ; Clear DX to store remainder
 
-    lea dx, deci_msg
-    mov ah, 9
-    int 21h 
+    L1:
+        div cx        ; Divide AX by CX, quotient in AX, remainder in DX
+        push dx       ; Push the remainder onto the stack
+        xor dx, dx    ; Clear DX for the next division
+        inc bx        ; Increment BX to keep track of the number of digits
+        cmp ax, 0     ; Compare AX with 0
+        jne L1        ; Jump to L1 if AX is not zero
+
+    lea dx, deci_msg  ; Load the address of the message to DX
+    mov ah, 9         ; Set AH to 9 to print a string
+    int 21h           ; Call the DOS interrupt to print the message
+
     L2:
-        pop dx
-        add dl, 30h
-        mov ah, 2
-        int 21h
-        dec bx
-        cmp bx, 0
-        jne L2
-    ret
+        pop dx         ; Pop the remainder from the stack to DX
+        add dl, 30h    ; Convert the remainder to ASCII character
+        mov ah, 2      ; Set AH to 2 to print a character
+        int 21h        ; Call the DOS interrupt to print the character
+        dec bx         ; Decrement BX to iterate through all the digits
+        cmp bx, 0      ; Compare BX with 0
+        jne L2         ; Jump to L2 if BX is not zero
+
+    ret               ; Return from the procedure
 print_dec ENDP
 
 print_oct PROC NEAR
+;--------------------------------------------------------------
+; Procedure: print_oct
+; Description: This procedure prints the octal representation of a number stored in the BX register.
+; Input: None
+; Output: None
+; Registers modified: AX, BX, CX, DX, AH
+;--------------------------------------------------------------
     mov ax, bx
     mov cx, 8
     mov bx, 0
@@ -205,6 +235,14 @@ print_oct PROC NEAR
 print_oct ENDP
 
 print_hex proc near
+;--------------------------------------------------------------
+; Function: print_hex
+; Description: This procedure prints the hexadecimal representation
+;              of the value stored in the BX register.
+; Input: None
+; Output: None
+; Registers modified: AX, BX, CX, DX, AH
+;--------------------------------------------------------------
     mov ax, bx
     mov cx, 16
     mov bx, 0
