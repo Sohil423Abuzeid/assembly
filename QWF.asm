@@ -259,9 +259,9 @@ print_hex proc near
     mov ah, 9
     int 21h
 
-    L2_hex: ; loop for print the hex number if < 9
+    L2_hex:         ; loop for print the hex number if num < 9
         pop dx
-        cmp dx, 9
+        cmp dx, 9   ; if num > 9
         jg L3_hex
         add dl, 30h
         mov ah, 2
@@ -269,7 +269,7 @@ print_hex proc near
         dec bx
         cmp bx, 0
         jne L2_hex
-    L3_hex: ; loop for print the hex number charachter if > 9
+    L3_hex:         ; loop for print the hex charachter if num > 9
         add dl, 37h
         mov ah, 2
         int 21h
