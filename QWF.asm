@@ -1,25 +1,17 @@
 .model small
 .STACK 300h
 .data
-    welcome DB 'Welcome, please enter binary number max(10 digits)',0Ah,0Dh,'Press ENTER to end',0Ah,0Dh,'$'
+    welcome DB 'Welcome, please enter binary number (MAX = 10 digits)',0Ah,0Dh,'Press ENTER to end',0Ah,0Dh,'$'
     msg1 DB 0Ah,0Dh,'You entered: ',0Ah,0Dh,'$'
     error DB ' Not an option, sorry. Enter again: ',0Ah,0Dh,'$'
-    obtions DB 0Ah,0Dh,0Ah,0Dh,'convert it to ',0Ah,0Dh,'1-decimal',0Ah,0Dh,'2-octal',0Ah,0Dh,'3-hexa',0Ah,0Dh, '9-End',0Ah,0Dh,'$'
+    obtions DB 0Ah,0Dh,0Ah,0Dh,'Convert it to ',0Ah,0Dh,'1- Decimal',0Ah,0Dh,'2- Octal',0Ah,0Dh,'3- Hexadecimal',0Ah,0Dh, '9-End',0Ah,0Dh,'$'
     deci_msg DB 0Ah,0Dh,'Decimal is: ',0Ah,0Dh,'$'
     oct_msg DB 0Ah,0Dh,'Octal is: ',0Ah,0Dh,'$'
     hex_msg DB 0Ah,0Dh,'Hexadecimal is: ',0Ah,0Dh,'$'
     bnum DB 11 DUP(?) ; buffer to store the binary number
     rbnum DB 11 DUP(?) ; buffer to store the reversed binary number
-    fdnum DB 11 DUP(?) ; buffer to store the final decimal answer number
     length_msg db 0Ah,0Dh,'Length is: ','$'
     lenght_bnum db 0 ; lenght of the binary number
-    fans db 0 ; final answer
-    hex_num db 5 DUP ('$') ; buffer to store the hexadecimal number
-    endl DB 0Ah,0Dh
-    
-    dec_result db 6 dup (?) ; decimal result will be stored here 
-    oct_result db 5 dup (?) ; octal result will be stored here 
-    dec_result_len db 0
 .code
 MAIN PROC FAR
     .startup
