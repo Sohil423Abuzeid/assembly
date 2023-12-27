@@ -44,7 +44,11 @@ READ:
 string_end:
     MOV BYTE PTR [SI], '$' ; add the string terminator
 
-    ;;;reverse bnum
+;--------------------------------------------------------------
+; reverse bnum 
+; take two strings and store the reversed into second string 
+; by usring two pointers
+;--------------------------------------------------------------
     dec si
     LEA di, rbnum ; load the address of the buffer into SI
     MOV CX, bx ; set the counter to 10
