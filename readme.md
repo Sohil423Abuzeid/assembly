@@ -33,7 +33,3 @@ The program prompts the user to enter a binary number (up to 16 digits) and prov
 
 - Saad Al-Tohamy
 - Sohil Mohammed
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
