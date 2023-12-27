@@ -3,17 +3,15 @@
 .data
     start db "================================",0Ah,0Dh,"Assembly Language Program to convert binary number to decimal, octal and hexadecimal",0Ah,0Dh,0Ah,0Dh,"Developed By:",0Ah,0Dh, "1- Saad Al-Tohamy",0Ah,0Dh,"2- Sohil Mohammed",0Ah,0Dh,"================================",0Ah,0Dh,"$"
     end_msg db 0Ah,0Dh,"================================",0Ah,0Dh,"Thank you for using our program",0Ah,0Dh,"================================",0Ah,0Dh,"$"
-    welcome DB 'Welcome, please enter binary number (MAX = 10 digits)',0Ah,0Dh,'Press ENTER to end',0Ah,0Dh,'$'
-    msg1 DB 0Ah,0Dh,0Ah,0Dh,'You entered: ',0Ah,0Dh,'$'
+    welcome DB 'Welcome, please enter binary number (MAX = 16 digits)',0Ah,0Dh,'Press ENTER to end',0Ah,0Dh,'$'
     error DB ' Not an option, sorry. Enter again: ',0Ah,0Dh,'$'
     obtions DB 0Ah,0Dh,0Ah,0Dh,'Convert it to ',0Ah,0Dh,'1- Decimal',0Ah,0Dh,'2- Octal',0Ah,0Dh,'3- Hexadecimal',0Ah,0Dh, '9-End',0Ah,0Dh,'$'
     deci_msg DB 0Ah,0Dh,0Ah,0Dh,'Decimal is: ','$'
     oct_msg DB 0Ah,0Dh,0Ah,0Dh,'Octal is: ','$'
     hex_msg DB 0Ah,0Dh,0Ah,0Dh,'Hexadecimal is: ','$'
-    bnum DB 11 DUP(?) ; buffer to store the binary number
-    rbnum DB 11 DUP(?) ; buffer to store the reversed binary number
-    length_msg db 0Ah,0Dh,'Length is: ','$'
-    lenght_bnum db 0 ; lenght of the binary number
+    bnum DB 11 DUP(?)       ; buffer to store the binary number
+    rbnum DB 11 DUP(?)      ; buffer to store the reversed binary number
+    lenght_bnum db 0        ; lenght of the binary number
 .code
 MAIN PROC FAR
     .startup
@@ -21,6 +19,7 @@ MAIN PROC FAR
     MOV ah ,09h
     LEA dx , start
     int 21h
+
     ; print welcome
     MOV ah ,09h
     LEA dx , welcome
@@ -30,7 +29,7 @@ MAIN PROC FAR
     
     ; Read string
     LEA SI, bnum
-    MOV CX, 10
+    MOV CX, 16
     mov bx, 0 ; counter for the lenght of the binary number
 READ:
     MOV AH, 01h 
@@ -60,18 +59,7 @@ reverse:
     inc di
     MOV BYTE PTR [SI], '$' ;
     ;;;
-    LEA DX, msg1 
-    MOV AH, 09h 
-    INT 21h ; print msg1 "You entered:"
-
-    LEA DX, bnum 
-    MOV AH, 09h 
-    INT 21h ; print the binary number
-
     xor si, si
-    lea dx, length_msg
-    mov ah, 09h
-    int 21h ; print "Length is:"
 
     mov lenght_bnum, bl ; store the lenght of the binary number in lenght_bnum
     mov dl, lenght_bnum
@@ -280,3 +268,5 @@ print_hex proc near
 print_hex endp
 
 END MAIN
+
+
