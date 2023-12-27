@@ -1,13 +1,15 @@
 .model small
 .STACK 300h
 .data
+    start db "================================",0Ah,0Dh,"Assembly Language Program to convert binary number to decimal, octal and hexadecimal",0Ah,0Dh,0Ah,0Dh,"Developed By:",0Ah,0Dh, "1- Saad Al-Tohamy",0Ah,0Dh,"2- Sohil Mohammed",0Ah,0Dh,"================================",0Ah,0Dh,"$"
+    end_msg db 0Ah,0Dh,"================================",0Ah,0Dh,"Thank you for using our program",0Ah,0Dh,"================================",0Ah,0Dh,"$"
     welcome DB 'Welcome, please enter binary number (MAX = 10 digits)',0Ah,0Dh,'Press ENTER to end',0Ah,0Dh,'$'
-    msg1 DB 0Ah,0Dh,'You entered: ',0Ah,0Dh,'$'
+    msg1 DB 0Ah,0Dh,0Ah,0Dh,'You entered: ',0Ah,0Dh,'$'
     error DB ' Not an option, sorry. Enter again: ',0Ah,0Dh,'$'
     obtions DB 0Ah,0Dh,0Ah,0Dh,'Convert it to ',0Ah,0Dh,'1- Decimal',0Ah,0Dh,'2- Octal',0Ah,0Dh,'3- Hexadecimal',0Ah,0Dh, '9-End',0Ah,0Dh,'$'
-    deci_msg DB 0Ah,0Dh,'Decimal is: ',0Ah,0Dh,'$'
-    oct_msg DB 0Ah,0Dh,'Octal is: ',0Ah,0Dh,'$'
-    hex_msg DB 0Ah,0Dh,'Hexadecimal is: ',0Ah,0Dh,'$'
+    deci_msg DB 0Ah,0Dh,0Ah,0Dh,'Decimal is: ','$'
+    oct_msg DB 0Ah,0Dh,0Ah,0Dh,'Octal is: ','$'
+    hex_msg DB 0Ah,0Dh,0Ah,0Dh,'Hexadecimal is: ','$'
     bnum DB 11 DUP(?) ; buffer to store the binary number
     rbnum DB 11 DUP(?) ; buffer to store the reversed binary number
     length_msg db 0Ah,0Dh,'Length is: ','$'
@@ -15,7 +17,10 @@
 .code
 MAIN PROC FAR
     .startup
-
+    ; print start
+    MOV ah ,09h
+    LEA dx , start
+    int 21h
     ; print welcome
     MOV ah ,09h
     LEA dx , welcome
@@ -24,8 +29,8 @@ MAIN PROC FAR
 
     
     ; Read string
-    LEA SI, bnum ; load the address of the buffer into SI
-    MOV CX, 10 ; set the counter to 10
+    LEA SI, bnum
+    MOV CX, 10
     mov bx, 0 ; counter for the lenght of the binary number
 READ:
     MOV AH, 01h 
@@ -39,6 +44,7 @@ READ:
     LOOP READ ; repeat until CX = 0
 string_end:
     MOV BYTE PTR [SI], '$' ; add the string terminator
+
     ;;;reverse bnum
     dec si
     LEA di, rbnum ; load the address of the buffer into SI
@@ -120,6 +126,10 @@ hex:
     jmp endd
 
 endd:
+    ; print end_msg
+    MOV ah ,09h
+    LEA dx , end_msg
+    int 21h
     .EXIT 
 MAIN ENDP
 
