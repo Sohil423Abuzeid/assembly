@@ -128,14 +128,14 @@ convert PROC NEAR
     xor bx ,bx ;reset to zero to store answer
     mov dx ,1  ;
     LEA di, rbnum
-conv_b_d: ; covert binary to decimal loop
+conv_b_h: ; covert binary to Hex loop
     cmp byte ptr [di], 30h
     je no_value ;if current digit equal 0 skip
     add bx ,dx
 no_value:
     inc di
     shl dx, 1 ;multi dx by 2 
-    loop conv_b_d
+    loop conv_b_h
     ret
 convert ENDP
 
