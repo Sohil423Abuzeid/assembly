@@ -66,10 +66,7 @@ reverse:
     xor si, si
 
     mov lenght_bnum, bl ; store the lenght of the binary number in lenght_bnum
-    mov dl, lenght_bnum
-    add dl, 30h
-    MOV AH, 02h
-    INT 21h ; print the lenght of the binary number
+
 
 
     ; print obtions
@@ -261,6 +258,7 @@ print_hex proc near
         dec bx
         cmp bx, 0
         jne L2_hex
+        ret
     L3_hex:         ; loop for print the hex charachter if num > 9
         add dl, 37h
         mov ah, 2
