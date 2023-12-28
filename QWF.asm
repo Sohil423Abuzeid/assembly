@@ -24,23 +24,23 @@ MAIN PROC FAR
     MOV ah ,09h
     LEA dx , welcome
     int 21h
-    xor ax, ax ; clear ax register
+    xor ax, ax          ; clear ax register
 
     
     ; Read string
     LEA SI, bnum
     MOV CX, 16
-    mov bx, 0 ; counter for the lenght of the binary number
+    mov bx, 0           ; counter for the lenght of the binary number
 READ:
     MOV AH, 01h 
-    INT 21H ; read a character
-    MOV [SI], AL ; store the character in the buffer
-    CMP AL, 0Dh ; if equal to carriage return "Enter", jump string_end
-    JE string_end ; if equal, jump string_end
-    INC SI ; increment the pointer
+    INT 21H             ; read a character
+    MOV [SI], AL        ; store the character in the buffer
+    CMP AL, 0Dh         ; if equal to carriage return "Enter", jump string_end
+    JE string_end       ; if equal, jump string_end
+    INC SI              ; increment the pointer
     XOR AX, AX
     inc bx 
-    LOOP READ ; repeat until CX = 0
+    LOOP READ           ; repeat until CX = 0
 string_end:
     MOV BYTE PTR [SI], '$' ; add the string terminator
 
@@ -50,8 +50,8 @@ string_end:
 ; by usring two pointers
 ;--------------------------------------------------------------
     dec si
-    LEA di, rbnum ; load the address of the buffer into SI
-    MOV CX, bx ; set the counter to 10
+    LEA di, rbnum       ; load the address of the buffer into SI
+    MOV CX, bx          ; set the counter to 10
 reverse:
     mov al ,[si] 
     mov [di] ,al
@@ -62,7 +62,7 @@ reverse:
     ; add the string terminator
     inc di
     MOV BYTE PTR [SI], '$' ;
-    ;;;
+    
     xor si, si
 
     mov lenght_bnum, bl ; store the lenght of the binary number in lenght_bnum
