@@ -65,7 +65,7 @@ reverse:
     
     xor si, si
 
-    mov lenght_bnum, bl ; store the lenght of the binary number in lenght_bnum
+mov lenght_bnum, bl     ; store the lenght of the binary number in lenght_bnum
 
 
 

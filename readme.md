@@ -1,3 +1,4 @@
+
 # Binary Number Conversion Program
 
 This assembly language program converts a binary number to decimal, octal, and hexadecimal representations.
@@ -33,3 +34,10 @@ The program prompts the user to enter a binary number (up to 16 digits) and prov
 
 - Saad Al-Tohamy
 - Sohil Mohammed
+
+---
+**NOTE**
+
+There are *two projects* in this repository, the first project is the main one, which is the `binary conversion`, and the second project is the Q&A system. This project was a plan B in case the main project did not work. Thank God, the binary conversion project worked after much effort, but we did not abandon the Q&A system project either. It is worth watching!
+
+---
